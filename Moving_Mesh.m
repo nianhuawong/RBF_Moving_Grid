@@ -1,10 +1,12 @@
+%% 该程序模拟了鱼体游动变形过程中的动网格生成，未考虑贪婪算法精简参考点
 clc;clear;close all;
+%% 读入初始NACA0012翼型网格
 [WALL,Coord,Grid,wallNodes]  = read_grid('./naca0012-tri.cas', 0);
 xCoord = Coord(:,1);
 yCoord = Coord(:,2);
 nNodes = size(xCoord,1);
 nWallNodes = size(wallNodes,2);
-
+%%
 fig = figure;
 fig.Color = 'white'; hold on;
 %% 参数
@@ -39,7 +41,7 @@ while t < 10
     end
      
 %     PLOT(WALL, xCoord_new, yCoord_new)
-%% 计算权重系数矩阵W   
+%% 计算权重系数矩阵W
     fai = zeros(nWallNodes,nWallNodes);
     for i = 1: nWallNodes
         wallIndex = wallNodes(i);
@@ -86,5 +88,6 @@ while t < 10
     end
     
     PLOT(Grid, xCoord_new, yCoord_new, nose_x)
+    pause();%每次输出网格后，pause暂停，按任意键继续生成t=t0+dt时刻网格。
 end
 
